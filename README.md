@@ -9,8 +9,8 @@ Tutorials from [baeldung.com](https://www.baeldung.com/).
 - Spring
 - ... (more added with time)
 
-### Platform
+### Platforms tested on
 
-- Amazon Corretto 11 JDK
-- Windows 10 64-bit
+- Amazon Corretto 11 and 17 JDKs
+- Windows 10 64-bit Professional / Linux Mint 20
 - IntelliJ
