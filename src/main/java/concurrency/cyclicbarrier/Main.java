@@ -11,10 +11,9 @@ import java.util.stream.Stream;
 public class Main {
 
     public static final int NUM_TASKS = 5;
-    private final Logger LOG = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        Logger LOG = LoggerFactory.getLogger(Main.class);
         // Create a CyclicBarrier which will get tripped when NUM_TASKS - many workers
         // call await() on it. The barrier has a Runnable action that gets executed when it's tripped.
         CyclicBarrier barrier = new CyclicBarrier(NUM_TASKS, ()-> LOG.info("All threads reached barrier!"));

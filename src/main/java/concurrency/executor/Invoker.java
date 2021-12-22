@@ -7,7 +7,7 @@ import java.util.concurrent.Executor;
 
 public class Invoker implements Executor {
 
-    private Logger logger = LoggerFactory.getLogger(Invoker.class);
+    private final Logger logger = LoggerFactory.getLogger(Invoker.class);
 
     @Override
     public void execute(Runnable command) {
