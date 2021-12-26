@@ -1,4 +1,4 @@
-package concurrency.executorservice;
+package concurrency.executor.executorservice;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

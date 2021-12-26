@@ -1,4 +1,4 @@
-package concurrency.executorservice.scheduled;
+package concurrency.executor.executorservice.scheduled;
 
 import java.util.concurrent.*;
 

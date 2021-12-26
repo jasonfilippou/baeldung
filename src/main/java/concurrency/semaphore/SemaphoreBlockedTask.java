@@ -21,10 +21,15 @@ public class SemaphoreBlockedTask implements Runnable{
     @Override
     public void run() {
         try {
+            // Acquire lock:
             LOG.info("Waiting on mutex.");
             mutex.acquire();
             LOG.info("Mutex acquired, about to write to file.");
+
+            // Do work:
             writeToFile();
+
+            // Release lock:
             LOG.info("File written to, releasing mutex.");
             mutex.release();
             LOG.info("Mutex released.");

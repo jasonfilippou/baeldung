@@ -1,4 +1,4 @@
-package concurrency.executorservice;
+package concurrency.executor.executorservice;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,7 +32,7 @@ public class MWE {
         executorService.submit(new Task());
         executorService.submit(new Task());
         try {
-            boolean allTasksExecutedWithinTimeout = executorService.awaitTermination(concurrency.executorservice.Task.MILLISECS_TO_SLEEP + 100, TimeUnit.MILLISECONDS);
+            boolean allTasksExecutedWithinTimeout = executorService.awaitTermination(concurrency.executor.executorservice.Task.MILLISECS_TO_SLEEP + 100, TimeUnit.MILLISECONDS);
             if(allTasksExecutedWithinTimeout){
                 System.out.println("All tasks terminated within the allotted time.");
             } else {
