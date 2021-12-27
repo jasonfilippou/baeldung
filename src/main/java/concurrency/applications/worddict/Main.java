@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class Main {
 
-    private static final int NUM_WORKERS = 10;
+    private static final int NUM_WORKERS = 1;
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     private static String getRelativeFilePath(String fileName){
@@ -24,26 +24,26 @@ public class Main {
 
         // Setup
         CyclicBarrier barrier = new CyclicBarrier(NUM_WORKERS, ()-> LOG.info("All barriers tripped!"));
-        Semaphore mutex = new Semaphore(1, true);
+        Semaphore mapMutex = new Semaphore(1, true);
+        Semaphore queueMutex = new Semaphore(1, true);
         Map<String, Long> dictionary = new HashMap<>();
-        ArrayDeque<String> words = new ArrayDeque<>(Arrays.asList("the", "an", "a", "of", "yes", "no", "can", "do", "you", "had"));
+        ArrayDeque<String> words = new ArrayDeque<>(Arrays.asList("the", "an", "a", "of", "yes", "no", "can", "do", "you", "had", "for", "none", "one", "two", "three", "zero", "four"));
         List<Thread> wordCounters = Stream
-                .generate(() -> new Thread(new WordCounter(words.pop(), mutex, barrier, getRelativeFilePath("input.txt"), dictionary)))
+                .generate(() -> new Thread(new WordCounter(words, queueMutex, mapMutex, barrier, getRelativeFilePath("input.txt"), dictionary)))
                 .limit(NUM_WORKERS)
                 .collect(Collectors.toList());
         assert words.isEmpty() : "We should have exhausted the queue";
 
         // Start workers and join them.
+        LOG.info("Unleashing " + NUM_WORKERS + " workers to scan for " + words.size() + " words." );
         wordCounters.forEach(Thread::start);
-        wordCounters.forEach(wordCounter ->
-                {
-                    try {
-                        wordCounter.join();
-                    } catch (InterruptedException e){
-                        LOG.error("Thread" + wordCounter.getName() + " failed to join.");
-                    }
-                }
-        );
+        wordCounters.forEach(wordCounter -> {
+            try {
+                wordCounter.join();
+            } catch (InterruptedException e){
+                LOG.error("Thread" + wordCounter.getName() + " failed to join.");
+            }
+        });
 
         // Print results
         dictionary.forEach((k, v) -> LOG.info(k + " appears " + v + " times " + " in text"));

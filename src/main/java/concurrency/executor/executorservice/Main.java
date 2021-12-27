@@ -1,10 +1,15 @@
 package concurrency.executor.executorservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
+
+    private final static Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         ExecutorService executorService = Executors.newFixedThreadPool(3);
@@ -13,7 +18,7 @@ public class Main {
     }
 
     private static void execute(ExecutorService executorService){
-        System.out.println("Thread " + Thread.currentThread().getName() + " about to submit a new task to executor.");
+        LOG.info("Thread " + Thread.currentThread().getName() + " about to submit a new task to executor.");
         executorService.submit(new Task());
         executorService.submit(new Task());
         executorService.submit(new Task());
@@ -25,13 +30,13 @@ public class Main {
         try {
             boolean allTasksExecutedWithinTimeout = executorService.awaitTermination(Task.MILLISECS_TO_SLEEP + 100, TimeUnit.MILLISECONDS);
             if(allTasksExecutedWithinTimeout){
-                System.out.println("All tasks terminated within the allotted time.");
+                LOG.info("All tasks terminated within the allotted time.");
             } else {
-                System.out.println("Not all tasks terminated within the allotted time.");
+                LOG.info("Not all tasks terminated within the allotted time.");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("Thread " +  Thread.currentThread().getName() + " about to do something required after all threads are done.");
+        LOG.info("Thread " +  Thread.currentThread().getName() + " about to do something required after all threads are done.");
     }
 }
